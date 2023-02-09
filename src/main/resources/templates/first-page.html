@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xlink" xmlns:c="http://java.sun.com/xml/ns/javaee"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+
+    <title>All USERS</title>
+</head>
+<body>
+<h3>Users Table</h3>
+<hr>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Surname</th>
+        <th>Age</th>
+        <th>Operations</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each = "user:${allUsers}">
+        <td th:text = "${user.getId()} "></td>
+        <td th:text = "${user.getName()}"></td>
+        <td th:text = "${user.getSurname()}"></td>
+        <td th:text = "${user.getAge()}"></td>
+
+            <td>
+                <a  th:href="@{/admin/updateUser(userId=${user.getId()})}">Update</a>
+                <a  th:href="@{/admin/deleteUser(userId=${user.getId()})}">Delete</a>
+            </td>
+
+
+
+    </tr>
+    </tbody>
+</table>
+<br>
+    <input type="button" value="Add user"
+        onclick="window.location.href='/admin/addNewUser'"/>
+    <br><br>
+<!--    <input type="button" value="Logout"-->
+<!--           th:onclick="window.location.href='/logout'"/>-->
+<div sec:authorize="isAuthenticated()">
+    <a href="javascript: document.logoutForm.submit()" class="dropdown-toggle">Logout</a>
+    <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+        <input hidden type="submit" value="Sign Out" />
+    </form>
+</div>
+
+</body>
+</html>

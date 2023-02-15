@@ -18,16 +18,16 @@ public class User {
     @Column(unique = true)
     private String username;
     private String password;
-    @Size(min = 2, message = "Name size must be greater than 1")
-    @NotBlank(message = "Name is required field!")
+//    @Size(min = 2, message = "Name size must be greater than 1")
+//    @NotBlank(message = "Name is required field!")
     @Column(name = "name")
     private String name;
-    @Size(min = 2, message = "Surname size must be greater than 1")
-    @NotBlank(message = "Surame is required field!")
+//    @Size(min = 2, message = "Surname size must be greater than 1")
+//    @NotBlank(message = "Surame is required field!")
     @Column(name = "surname")
     private String surname;
-    @Min(value = 1, message = "Must be greater than 0")
-    @Max(value = 120, message = "Must be lass than 121")
+//    @Min(value = 1, message = "Must be greater than 0")
+//    @Max(value = 120, message = "Must be lass than 121")
     @Column(name = "age")
     private int age;
 
@@ -91,5 +91,17 @@ public class User {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", age=" + age +
+                '}';
     }
 }

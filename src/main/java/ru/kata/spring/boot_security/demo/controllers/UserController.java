@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.kata.spring.boot_security.demo.entities.Role;
@@ -29,45 +30,63 @@ public class UserController {
     }
 
     @RequestMapping("/admin")
-    public String allUsers(Model model) {
-        List<User> allUsers = userService.getAllUsers();
-        model.addAttribute("allUsers", allUsers);
+    public String allUsers(Principal principal, Model model) {
+        //список всех пользователей
+        model.addAttribute("allUsers", userService.getAllUsers());
+        //отображение в шапке пользователя
+        model.addAttribute("thisUser", userService.findByUsername(principal.getName()).get());
+        //добавление нового пользователя
+        model.addAttribute("newUser", new User());
+        model.addAttribute("allRoles", roleRepository.findAll());
 
-        return "first-page";
+        return "admin-page";
     }
 
-    @RequestMapping("/admin/addNewUser")
-    public String addNewUser(Model model) {
-
-        User user = new User();
-        model.addAttribute("user", user);
-        List<Role> roles = roleRepository.findAll();
-        model.addAttribute("roles", roles);
-        return "user-info";
-    }
+//    @RequestMapping("/admin/addNewUser")
+//    public String addNewUser(Model model) {
+//
+//        User newUser = new User();
+//        model.addAttribute("user", newUser);
+//        List<Role> allRoles = roleRepository.findAll();
+//        model.addAttribute("allRoles", allRoles);
+//
+//       return "user-info";
+//    }
 
     @RequestMapping("/admin/saveUser")
-    public String saveUser(@Valid @ModelAttribute("user") User user,
-                           BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return "user-info";
-        } else {
-            userService.saveUser(user);
-            return "redirect:/admin";
-        }
+    public String saveUser(@ModelAttribute("user") User user) {
 
+        userService.saveUser(user);
+        System.out.println("Ошибок нет, все ок!");
+
+        System.out.println(user);
+        System.out.println("МЫ в сохранениии!!!!!!!!!!!!!!!");
+        return "redirect:/admin";
     }
 
-    @RequestMapping("/admin/updateUser")
-    public String updateUser(@RequestParam("userId") int userId, Model model) {
+//    @RequestMapping("/admin/saveUser")
+//    public String saveUser(@ModelAttribute("user") User user) {
+//        userService.saveUser(user);
+//
+//        return "redirect:/admin";
+//    }
 
-        User user = userService.getUser(userId);
-        model.addAttribute("user", user);
-        List<Role> roles = roleRepository.findAll();
-        model.addAttribute("roles", roles);
-
-        return "user-info";
-    }
+//    @RequestMapping("/admin/updateUser")
+//    public String updateUser(@RequestParam("userId") int userId, Model model) {
+//
+//        User user = userService.getUser(userId);
+//        model.addAttribute("user", user);
+//        List<Role> roles = roleRepository.findAll();
+//        model.addAttribute("roles", roles);
+//
+//        return "user-info";
+//    }
+//    @RequestMapping("/{id}/update")
+//    public String updateUser(@ModelAttribute("user") User user, Model model) {
+//        model.addAttribute("roles", roleRepository.findAll());
+//        userService.saveUser(user);
+//        return "redirect:/admin";
+//    }
 
     @RequestMapping("/admin/deleteUser")
     public String deleteUser(@RequestParam("userId") int userId, Model model) {
@@ -82,6 +101,11 @@ public class UserController {
         User user = userService.findByUsername(principal.getName()).get();
         model.addAttribute("user", user);
         return "user";
+    }
+
+    @RequestMapping("/")
+    public String loginPage() {
+        return "login";
     }
 
 

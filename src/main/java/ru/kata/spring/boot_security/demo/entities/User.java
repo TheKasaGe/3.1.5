@@ -1,10 +1,6 @@
 package ru.kata.spring.boot_security.demo.entities;
 
 import javax.persistence.*;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 import java.util.Collection;
 
 @Entity
@@ -15,22 +11,16 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(unique = true)
+    @Column(name = "username", unique = true)
     private String username;
+    @Column(name = "password")
     private String password;
-//    @Size(min = 2, message = "Name size must be greater than 1")
-//    @NotBlank(message = "Name is required field!")
     @Column(name = "name")
     private String name;
-//    @Size(min = 2, message = "Surname size must be greater than 1")
-//    @NotBlank(message = "Surame is required field!")
     @Column(name = "surname")
     private String surname;
-//    @Min(value = 1, message = "Must be greater than 0")
-//    @Max(value = 120, message = "Must be lass than 121")
     @Column(name = "age")
     private int age;
-
     @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),

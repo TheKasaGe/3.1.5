@@ -1,6 +1,7 @@
 package ru.kata.spring.boot_security.demo.entities;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.Objects;
 
 @Entity
@@ -13,6 +14,10 @@ public class Role {
 
     @Column(name = "name", unique = true)
     private String name;
+
+    @Transient
+    @ManyToMany(mappedBy = "roles")
+    private Collection<User> users;
 
     public long getId() {
         return id;

@@ -51,17 +51,16 @@ public class RestController {
         return user;
     }
 
-    @PutMapping("/update")
+    @PatchMapping("/update")
     public User updateUser(@RequestBody User user) {
+        System.out.println("Обновляем юзера:" + user);
         userService.saveUser(user);
         return user;
     }
 
-    //    TODO мб переделать в void
     @DeleteMapping("/delete/{id}")
-    public String deleteUser(@PathVariable("id") int id) {
+    public void deleteUser(@PathVariable("id") int id) {
         userService.removeUserById(id);
-        return "User с id " + id + " успешно удален!";
     }
 
 

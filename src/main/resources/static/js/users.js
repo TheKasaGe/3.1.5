@@ -260,3 +260,17 @@ $(document).on('click', '#submit-add', async function () {
         console.error('Ошибка:', error);
     }
 })
+
+//таб панель с информацией о залогиненом пользователе
+$(document).on('click', '#v-pills-profile-tab', function () {
+    $("#principal-tr").remove();
+    $('<tr>').attr({"id": "principal-tr"})
+        .append(
+        $('<td>').text(principal.id),
+        $('<td>').text(principal.name),
+        $('<td>').text(principal.surname),
+        $('<td>').text(principal.age),
+        $('<td>').text(principal.username),
+        $('<td>').text((principal.roles).map(role => role.name).join(', ')),
+    ).appendTo('.principal-table-body');
+})
